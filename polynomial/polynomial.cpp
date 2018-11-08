@@ -134,7 +134,12 @@ polynomial polynomial::operator*(polynomial& p)
 		Node *c1 = a0;
 		for (int j = 0; j <= i; j++)
 		{
-			r += (*this)[j] *p[i - j];
+			try
+			{
+				r += (*this)[j]->a *p[i - j]->a;
+			}
+			catch (const char*)
+			{}
 		}
 		prod->Add(r);
 	}
@@ -142,14 +147,14 @@ polynomial polynomial::operator*(polynomial& p)
 	return *prod;
 }
 
-double polynomial::operator[](int n)
+polynomial::Node* polynomial::operator[](int n)
 {
 	Node* c = a0;
 	for (int i = 0; i < n && c != nullptr; i++, c = c->next);
 	if (c)
-		return c->a;
+		return c;
 	else
-		return 0;
+		throw "null";
 
 }
 
@@ -253,12 +258,10 @@ polynomial& polynomial::Derived(int k)
 
 void polynomial::Integrate()
 {
-	Node* cursor = a0;
-	int i;
-	for (i = 0; cursor->next != nullptr; cursor = cursor->next, i++)
-		cursor->next->a = (cursor->a)/(i+1);
-	cursor->next = new Node(cursor->a);
-	a0->a = 3.3333;
+	(*this)[Degree()]->next = new Node(0);
+	for (int i = Degree(); i >= 0; i--)
+		(*this)[i]->next->a = ((*this)[i]->a) / (i + 1);
+	a0->a = 111;
 }
 
 polynomial& polynomial::Integrated()

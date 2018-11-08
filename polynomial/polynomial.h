@@ -18,6 +18,7 @@ private:
 	Node* a0 = nullptr;
 
 	void Tidy(Node*&);
+	Node* operator[](int);
 
 public:
 	polynomial();
@@ -28,7 +29,6 @@ public:
 	polynomial operator-(polynomial&);
 	polynomial operator*(double);
 	polynomial operator*(polynomial&);
-	double operator[](int);
 
 	double operator()(double);
 
