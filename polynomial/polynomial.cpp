@@ -158,6 +158,17 @@ polynomial::Node* polynomial::operator[](int n)
 
 }
 
+void polynomial::rightshift(Node * c, int i)
+{
+	if (c->next)
+	{
+		rightshift(c->next, i+1);
+		c->next->a = c->a /(i+1);
+	}
+	else
+		return;
+}
+
 double polynomial::operator()(double x)
 {
 	if (a0)
@@ -258,9 +269,8 @@ polynomial& polynomial::Derived(int k)
 
 void polynomial::Integrate()
 {
-	(*this)[Degree()]->next = new Node(0);
-	for (int i = Degree(); i >= 0; i--)
-		(*this)[i]->next->a = ((*this)[i]->a) / (i + 1);
+	Add(0);
+	rightshift(a0, 0);
 	a0->a = 111;
 }
 

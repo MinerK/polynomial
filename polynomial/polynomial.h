@@ -19,6 +19,7 @@ private:
 
 	void Tidy(Node*&);
 	Node* operator[](int);
+	void rightshift(Node*, int i);
 
 public:
 	polynomial();
